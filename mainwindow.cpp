@@ -21,5 +21,6 @@ void MainWindow::on_pushButton_8_clicked()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     "/home/oyashi/Downloads",
                                                     tr("Torrents (*.torrent)"));
+    //changes for me
     ui->fileLabel->setText(fileName);
 }
