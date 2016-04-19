@@ -1,0 +1,37 @@
+STEPS for libtorrent
+
+cpp files location: cd /usr/lib
+header files location: cd /usr/local/include or /usr/include
+
+download boost 1.55, build it
+
+download libtorrent 1.1.0
+http://dev.deluge-torrent.org/wiki/Building/libtorrent
+
+	building with autotools (http://www.rasterbar.com/products/libtorrent/building.html)
+
+	download the tar or zip version, instead of sudo apt-get install, using URL https://github.com/arvidn/libtorrent/releases/tag/libtorrent-1_1
+	extract and cd 
+		
+	if not executable configure file, then run ./autotool.sh
+
+	export LDFLAGS=-L/opt/local/lib
+	export CXXFLAGS=-I/opt/local/include
+
+	
+	./configure --disable-debug
+	make clean
+	make install
+
+download the RAW version of torrent_view.hpp and all other *.hpp files
+
+for cmake ->
+if there is CMakeLists.txt in a directory, go outside of that directory and enter $ cmake . and $ make
+
+References:
+http://dev.deluge-torrent.org/wiki/Building/libtorrent
+
+
+
+
+
