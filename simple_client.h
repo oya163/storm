@@ -1,0 +1,4 @@
+#ifndef SIMPLE_CLIENT_H
+#define SIMPLE_CLIENT_H
+
+#endif // SIMPLE_CLIENT_H
