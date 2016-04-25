@@ -29,53 +29,78 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
 */
+#include "./mainwindow.h"
+#include "./simple_client.h"
 
-#include <stdlib.h>
-#include <boost/make_shared.hpp>
-#include "libtorrent/entry.hpp"
-#include "libtorrent/bencode.hpp"
-#include "libtorrent/session.hpp"
-#include "libtorrent/torrent_info.hpp"
+#include <string.h>
+#include "QMessageBox"
 
-int startTorrent(int argc, char* argv[])
+
+#include "libtorrent/add_torrent_params.hpp"
+#include "libtorrent/torrent_handle.hpp"
+
+
+simple_client::~simple_client(){
+    printf("Simple client destructor called");
+}
+
+int simple_client::startTorrent(QString onlyFilename)
 {
+    QMessageBox infoBox;
+    QString errorCode;
+    std::string ecCode;
+
 	using namespace libtorrent;
 	namespace lt = libtorrent;
 
-	if (argc != 2)
-	{
-		fputs("usage: ./simple_client torrent-file\n"
-			"to stop the client, press return.\n", stderr);
-		return 1;
-	}
-
 	settings_pack sett;
+
+    int refresh_delay = 500;
+#ifndef TORRENT_DISABLE_DHT
+    bool start_dht = true;
+#endif
+    bool rate_limit_locals = false;
+
+
 	sett.set_str(settings_pack::listen_interfaces, "0.0.0.0:6881");
+
 	lt::session s(sett);
+
 	error_code ec;
 	if (ec)
 	{
-		fprintf(stderr, "failed to open listen socket: %s\n", ec.message().c_str());
+        ecCode = strcat("failed to open listen socket: ",ec.message().c_str());
+        errorCode = QString(ecCode.c_str());
+        infoBox.setText(errorCode);
+        infoBox.exec();
 		return 1;
 	}
 	add_torrent_params p;
 	p.save_path = "./";
-	p.ti = boost::make_shared<torrent_info>(std::string(argv[1]), boost::ref(ec), 0);
+    p.ti = boost::make_shared<torrent_info>(onlyFilename.toLatin1().data(), boost::ref(ec), 0);
+
+
 	if (ec)
-	{
-		fprintf(stderr, "%s\n", ec.message().c_str());
-		return 1;
-	}
-	s.add_torrent(p, ec);
-	if (ec)
-	{
-		fprintf(stderr, "%s\n", ec.message().c_str());
+    {
+        infoBox.setText(ec.message().c_str());
+        infoBox.exec();
 		return 1;
 	}
 
-	// wait for the user to end
-	char a;
-	scanf("%c\n", &a);
-	return 0;
+	s.add_torrent(p, ec);
+
+
+	if (ec)
+    {
+        infoBox.setText(ec.message().c_str());
+        infoBox.exec();
+		return 1;
+	}
+
+//     wait for the user to end
+    char a;
+    scanf("%c\n", &a);
+
+    return 0;
 }
 

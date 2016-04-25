@@ -2,11 +2,20 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QThread>
+
 #include "dump_torrent.h"
+#include "simple_client.h"
+#include "clienttest.h"
+#include "startthread.h"
 
 namespace Ui {
 class MainWindow;
 }
+
+struct torVariable{
+    QString torFileName;
+};
 
 class MainWindow : public QMainWindow
 {
@@ -16,11 +25,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void setLineEdit(int num);
-    //dump_torrent *dumpTorrent;
+    void displayHeader();
+    bool quitProgram = false;
+
 
 private slots:
-    void on_pushButton_8_clicked();
-    void on_pushButton_7_clicked();
+    void on_openButton_clicked();
+    void on_startButton_clicked();
+    void on_quitButton_clicked();
 
 public slots:
     void setNumPieces(int numOfPieces);
@@ -32,10 +44,17 @@ public slots:
     void setName(QString nameOfFile);
     void setNumOfFiles(int numPieces);
     void setFilesList(QList<QString>);
+    void displayProgress(struct torVariable *);
+    void displayResultFromSC(int result);
 
 private:
     Ui::MainWindow *ui;
     dump_torrent *dt = new dump_torrent();
+    clienttest *ct = new clienttest();
+    QString onlyFilename, filePath, torrentFileName;
+    torVariable *tv = new torVariable();
+
+
 
 };
 

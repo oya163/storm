@@ -1603,11 +1603,13 @@ int print(int argc, char* argv[])
 
     error_code ec;
 
+	//start_dht
 #ifndef TORRENT_DISABLE_DHT
     dht_settings dht;
     dht.privacy_lookups = true;
     ses.set_dht_settings(dht);
 
+	//
     if (start_dht)
     {
         settings.set_bool(settings_pack::use_dht_as_fallback, false);
@@ -1620,6 +1622,7 @@ int print(int argc, char* argv[])
             std::string("router.bitcomet.com"), 6881));
     }
 
+	//bdecode
     std::vector<char> in;
     if (load_file(".ses_state", in, ec) == 0)
     {
@@ -1629,12 +1632,14 @@ int print(int argc, char* argv[])
     }
 #endif
 
+	//async_add_torrent
     for (std::vector<add_torrent_params>::iterator i = magnet_links.begin()
         , end(magnet_links.end()); i != end; ++i)
     {
         ses.async_add_torrent(*i);
     }
 
+	//add_torrent
     for (std::vector<std::string>::iterator i = torrents.begin()
         , end(torrents.end()); i != end; ++i)
     {
@@ -1718,6 +1723,7 @@ int print(int argc, char* argv[])
 #define DOWN_ARROW 66
 #endif
 
+			//torrent_handle
             torrent_handle h = view.get_active_handle();
 
             if (c == EOF) { break; }
@@ -2380,6 +2386,8 @@ int print(int argc, char* argv[])
 
     if (g_log_file) fclose(g_log_file);
 
+
+	//save_state()
     // we're just saving the DHT state
 #ifndef TORRENT_DISABLE_DHT
     printf("\nsaving session state\n");

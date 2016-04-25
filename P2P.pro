@@ -18,13 +18,20 @@ SOURCES += main.cpp\
     importedCPP/print.cpp \
     importedCPP/session_view.cpp \
     importedCPP/simple_client.cpp \
-    importedCPP/torrent_view.cpp
+    importedCPP/torrent_view.cpp \
+    clienttest.cpp \
+    starttorrent.cpp \
+    startthread.cpp
 
 HEADERS  += mainwindow.h \
     dump_torrent.h \
-    Imported_header/print.hpp \
-    Imported_header/session_view.hpp \
-    Imported_header/torrent_view.hpp
+    simple_client.h \
+    importedHeader/print.hpp \
+    importedHeader/session_view.hpp \
+    importedHeader/torrent_view.hpp \
+    clienttest.h \
+    starttorrent.h \
+    startthread.h
 
 FORMS    += mainwindow.ui
 
@@ -32,3 +39,4 @@ INCLUDEPATH += /home/oyashi/Downloads/libtorrent-rasterbar-1.1.0/include/libtorr
 INCLUDEPATH += /usr/local/include/boost/	
 
 LIBS += -L/usr/lib/ -lboost_filesystem -lboost_system -ltorrent-rasterbar
+LIBS += -L/usr/local/lib -lboost_system
