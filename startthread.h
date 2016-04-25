@@ -1,0 +1,4 @@
+#ifndef STARTTHREAD_H
+#define STARTTHREAD_H
+
+#endif // STARTTHREAD_H
