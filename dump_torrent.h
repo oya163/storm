@@ -17,6 +17,7 @@ class dump_torrent : public QObject
 {
     Q_OBJECT
 public:
+    ~dump_torrent();
     int load_file(std::string const& filename, std::vector<char>& v
                   , libtorrent::error_code& ec, int limit);
     int printInfo(int argc, char* argv[]);

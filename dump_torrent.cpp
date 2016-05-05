@@ -30,15 +30,12 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-//#include "libtorrent/entry.hpp"
-//#include "libtorrent/bencode.hpp"
-//#include "libtorrent/torrent_info.hpp"
-//#include "libtorrent/announce_entry.hpp"
-//#include "libtorrent/bdecode.hpp"
-//#include "libtorrent/magnet_uri.hpp"
 #include "dump_torrent.h"
 #include "mainwindow.h"
 
+dump_torrent::~dump_torrent(){
+    delete fileName;
+}
 
 int dump_torrent::load_file(std::string const& filename, std::vector<char>& v
     , libtorrent::error_code& ec, int limit = 8000000)
@@ -114,9 +111,6 @@ int dump_torrent::printInfo(int argc, char* argv[])
 
 	int item_limit = 1000000;
 	int depth_limit = 1000;
-
-//	if (argc > 2) item_limit = atoi(argv[2]);
-//	if (argc > 3) depth_limit = atoi(argv[3]);
 
     std::vector<char> buf;
     error_code ec;

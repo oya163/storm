@@ -36,7 +36,7 @@ DISTNAME      = P2P1.0.0
 DISTDIR = /home/oyashi/P2P/storm/.tmp/P2P1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/oyashi/Qt/5.5/gcc_64 -Wl,-rpath,/home/oyashi/Qt/5.5/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/usr/lib/ -lboost_filesystem -lboost_system -ltorrent-rasterbar -L/home/oyashi/Qt/5.5/gcc_64/lib -lQt5Widgets -L/usr/lib64 -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/lib/ -lboost_filesystem -ltorrent-rasterbar -L/usr/local/lib -lboost_system -L/home/oyashi/Qt/5.5/gcc_64/lib -lQt5Widgets -L/usr/lib64 -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -54,8 +54,12 @@ SOURCES       = main.cpp \
 		importedCPP/print.cpp \
 		importedCPP/session_view.cpp \
 		importedCPP/simple_client.cpp \
-		importedCPP/torrent_view.cpp moc_mainwindow.cpp \
-		moc_dump_torrent.cpp
+		importedCPP/torrent_view.cpp \
+		clienttest.cpp \
+		starttorrent.cpp \
+		startthread.cpp moc_mainwindow.cpp \
+		moc_dump_torrent.cpp \
+		moc_startthread.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		dump_torrent.o \
@@ -63,8 +67,12 @@ OBJECTS       = main.o \
 		session_view.o \
 		simple_client.o \
 		torrent_view.o \
+		clienttest.o \
+		starttorrent.o \
+		startthread.o \
 		moc_mainwindow.o \
-		moc_dump_torrent.o
+		moc_dump_torrent.o \
+		moc_startthread.o
 DIST          = ../../Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.5/gcc_64/mkspecs/common/unix.conf \
 		../../Qt/5.5/gcc_64/mkspecs/common/linux.conf \
@@ -202,15 +210,22 @@ DIST          = ../../Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.5/gcc_64/mkspecs/features/lex.prf \
 		P2P.pro mainwindow.h \
 		dump_torrent.h \
-		Imported_header/print.hpp \
-		Imported_header/session_view.hpp \
-		Imported_header/torrent_view.hpp main.cpp \
+		simple_client.h \
+		importedHeader/print.hpp \
+		importedHeader/session_view.hpp \
+		importedHeader/torrent_view.hpp \
+		clienttest.h \
+		starttorrent.h \
+		startthread.h main.cpp \
 		mainwindow.cpp \
 		dump_torrent.cpp \
 		importedCPP/print.cpp \
 		importedCPP/session_view.cpp \
 		importedCPP/simple_client.cpp \
-		importedCPP/torrent_view.cpp
+		importedCPP/torrent_view.cpp \
+		clienttest.cpp \
+		starttorrent.cpp \
+		startthread.cpp
 QMAKE_TARGET  = P2P
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = P2P
@@ -534,8 +549,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h dump_torrent.h Imported_header/print.hpp Imported_header/session_view.hpp Imported_header/torrent_view.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp dump_torrent.cpp importedCPP/print.cpp importedCPP/session_view.cpp importedCPP/simple_client.cpp importedCPP/torrent_view.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h dump_torrent.h simple_client.h importedHeader/print.hpp importedHeader/session_view.hpp importedHeader/torrent_view.hpp clienttest.h starttorrent.h startthread.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp dump_torrent.cpp importedCPP/print.cpp importedCPP/session_view.cpp importedCPP/simple_client.cpp importedCPP/torrent_view.cpp clienttest.cpp starttorrent.cpp startthread.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -559,9 +574,9 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_dump_torrent.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_dump_torrent.cpp moc_startthread.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_dump_torrent.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_dump_torrent.cpp moc_startthread.cpp
 moc_mainwindow.cpp: ../../Qt/5.5/gcc_64/include/QtWidgets/QMainWindow \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
@@ -670,6 +685,14 @@ moc_mainwindow.cpp: ../../Qt/5.5/gcc_64/include/QtWidgets/QMainWindow \
 		dump_torrent.h \
 		../../Qt/5.5/gcc_64/include/QtCore/QObject \
 		../../Qt/5.5/gcc_64/include/QtCore/QString \
+		simple_client.h \
+		clienttest.h \
+		importedHeader/torrent_view.hpp \
+		importedHeader/session_view.hpp \
+		importedHeader/print.hpp \
+		startthread.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QThread \
+		../../Qt/5.5/gcc_64/include/QtCore/qthread.h \
 		mainwindow.h
 	/home/oyashi/Qt/5.5/gcc_64/bin/moc $(DEFINES) -I/home/oyashi/Qt/5.5/gcc_64/mkspecs/linux-g++ -I/home/oyashi/P2P/storm -I/home/oyashi/Downloads/libtorrent-rasterbar-1.1.0/include/libtorrent -I/usr/local/include/boost -I/home/oyashi/Qt/5.5/gcc_64/include -I/home/oyashi/Qt/5.5/gcc_64/include/QtWidgets -I/home/oyashi/Qt/5.5/gcc_64/include/QtGui -I/home/oyashi/Qt/5.5/gcc_64/include/QtCore mainwindow.h -o moc_mainwindow.cpp
 
@@ -729,6 +752,66 @@ moc_dump_torrent.cpp: ../../Qt/5.5/gcc_64/include/QtCore/QObject \
 		../../Qt/5.5/gcc_64/include/QtCore/QString \
 		dump_torrent.h
 	/home/oyashi/Qt/5.5/gcc_64/bin/moc $(DEFINES) -I/home/oyashi/Qt/5.5/gcc_64/mkspecs/linux-g++ -I/home/oyashi/P2P/storm -I/home/oyashi/Downloads/libtorrent-rasterbar-1.1.0/include/libtorrent -I/usr/local/include/boost -I/home/oyashi/Qt/5.5/gcc_64/include -I/home/oyashi/Qt/5.5/gcc_64/include/QtWidgets -I/home/oyashi/Qt/5.5/gcc_64/include/QtGui -I/home/oyashi/Qt/5.5/gcc_64/include/QtCore dump_torrent.h -o moc_dump_torrent.cpp
+
+moc_startthread.cpp: simple_client.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QString \
+		../../Qt/5.5/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qfeatures.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QObject \
+		../../Qt/5.5/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qisenum.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QThread \
+		../../Qt/5.5/gcc_64/include/QtCore/qthread.h \
+		startthread.h
+	/home/oyashi/Qt/5.5/gcc_64/bin/moc $(DEFINES) -I/home/oyashi/Qt/5.5/gcc_64/mkspecs/linux-g++ -I/home/oyashi/P2P/storm -I/home/oyashi/Downloads/libtorrent-rasterbar-1.1.0/include/libtorrent -I/usr/local/include/boost -I/home/oyashi/Qt/5.5/gcc_64/include -I/home/oyashi/Qt/5.5/gcc_64/include/QtWidgets -I/home/oyashi/Qt/5.5/gcc_64/include/QtGui -I/home/oyashi/Qt/5.5/gcc_64/include/QtCore startthread.h -o moc_startthread.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -857,6 +940,14 @@ main.o: main.cpp mainwindow.h \
 		dump_torrent.h \
 		../../Qt/5.5/gcc_64/include/QtCore/QObject \
 		../../Qt/5.5/gcc_64/include/QtCore/QString \
+		simple_client.h \
+		clienttest.h \
+		importedHeader/torrent_view.hpp \
+		importedHeader/session_view.hpp \
+		importedHeader/print.hpp \
+		startthread.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QThread \
+		../../Qt/5.5/gcc_64/include/QtCore/qthread.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QApplication \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qapplication.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qcoreapplication.h \
@@ -866,11 +957,10 @@ main.o: main.cpp mainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-mainwindow.o: mainwindow.cpp mainwindow.h \
-		../../Qt/5.5/gcc_64/include/QtWidgets/QMainWindow \
-		../../Qt/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
-		../../Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
-		../../Qt/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+mainwindow.o: mainwindow.cpp ui_mainwindow.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QVariant \
+		../../Qt/5.5/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qglobal.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qconfig.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qfeatures.h \
@@ -882,7 +972,9 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qsysinfo.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qlogging.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qflags.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qbasicatomic.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qgenericatomic.h \
@@ -896,19 +988,12 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qatomic_mips.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qatomic_x86.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qatomic_unix.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qmutex.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		../../Qt/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qobject.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qstring.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qchar.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qbytearray.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qchar.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qstringbuilder.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qlist.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qalgorithms.h \
@@ -917,29 +1002,46 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qstringlist.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qregexp.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qstringmatcher.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qmetatype.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qisenum.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/QAction \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qaction.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qmargins.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qpaintdevice.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qrect.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qsize.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qpoint.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qpalette.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qcolor.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qrgb.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qbrush.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qpair.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qvector.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qmatrix.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qpolygon.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qregion.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qdatastream.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qiodevice.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qline.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qtransform.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qpainterpath.h \
@@ -947,38 +1049,20 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qpixelformat.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qpixmap.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qsharedpointer.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qshareddata.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qhash.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qfont.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qfontmetrics.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qfontinfo.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qcursor.h \
-		../../Qt/5.5/gcc_64/include/QtGui/qkeysequence.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qevent.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qvariant.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qmap.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qdebug.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qtextstream.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qlocale.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qset.h \
-		../../Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qurl.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qurlquery.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qfile.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
-		../../Qt/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qicon.h \
-		dump_torrent.h \
-		../../Qt/5.5/gcc_64/include/QtCore/QObject \
-		../../Qt/5.5/gcc_64/include/QtCore/QString \
-		ui_mainwindow.h \
-		../../Qt/5.5/gcc_64/include/QtCore/QVariant \
-		../../Qt/5.5/gcc_64/include/QtWidgets/QAction \
-		../../Qt/5.5/gcc_64/include/QtWidgets/qaction.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qactiongroup.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QApplication \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qapplication.h \
@@ -1007,12 +1091,15 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qabstractslider.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qstyle.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qtabbar.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qrubberband.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QLabel \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qlabel.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QListWidget \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qlistwidget.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qlistview.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/QMainWindow \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QMenuBar \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qmenubar.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qmenu.h \
@@ -1021,6 +1108,9 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qabstractbutton.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QStatusBar \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/QTableWidget \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qtablewidget.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qtableview.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QTextBrowser \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qtextbrowser.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qtextedit.h \
@@ -1032,11 +1122,33 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QToolBar \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qtoolbar.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QWidget \
+		mainwindow.h \
+		dump_torrent.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QObject \
+		../../Qt/5.5/gcc_64/include/QtCore/QString \
+		simple_client.h \
+		clienttest.h \
+		importedHeader/torrent_view.hpp \
+		importedHeader/session_view.hpp \
+		importedHeader/print.hpp \
+		startthread.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QThread \
+		../../Qt/5.5/gcc_64/include/QtCore/qthread.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/QFileDialog \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.5/gcc_64/include/QtCore/qfileinfo.h \
-		../../Qt/5.5/gcc_64/include/QtWidgets/qdialog.h
+		../../Qt/5.5/gcc_64/include/QtWidgets/qdialog.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/QMessageBox \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qmessagebox.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/QErrorMessage \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qerrormessage.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/QTreeWidget \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qtreewidget.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qtreeview.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qtreewidgetitemiterator.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/QTreeWidgetItem \
+		../../Qt/5.5/gcc_64/include/QtCore/QStringList
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
 dump_torrent.o: dump_torrent.cpp dump_torrent.h \
@@ -1147,26 +1259,224 @@ dump_torrent.o: dump_torrent.cpp dump_torrent.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
 		../../Qt/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
-		../../Qt/5.5/gcc_64/include/QtGui/qicon.h
+		../../Qt/5.5/gcc_64/include/QtGui/qicon.h \
+		simple_client.h \
+		clienttest.h \
+		importedHeader/torrent_view.hpp \
+		importedHeader/session_view.hpp \
+		importedHeader/print.hpp \
+		startthread.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QThread \
+		../../Qt/5.5/gcc_64/include/QtCore/qthread.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dump_torrent.o dump_torrent.cpp
 
-print.o: importedCPP/print.cpp 
+print.o: importedCPP/print.cpp importedHeader/print.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o print.o importedCPP/print.cpp
 
-session_view.o: importedCPP/session_view.cpp 
+session_view.o: importedCPP/session_view.cpp importedHeader/session_view.hpp \
+		importedHeader/print.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o session_view.o importedCPP/session_view.cpp
 
-simple_client.o: importedCPP/simple_client.cpp 
+simple_client.o: importedCPP/simple_client.cpp mainwindow.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/QMainWindow \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qfeatures.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qisenum.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmargins.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qrect.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qsize.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qpalette.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qcolor.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qrgb.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qbrush.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qmatrix.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qpolygon.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qregion.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qdatastream.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qline.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qtransform.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qimage.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qpixmap.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qfont.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qcursor.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qevent.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qurl.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qurlquery.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qfile.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qvector2d.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../Qt/5.5/gcc_64/include/QtGui/qicon.h \
+		dump_torrent.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QObject \
+		../../Qt/5.5/gcc_64/include/QtCore/QString \
+		simple_client.h \
+		clienttest.h \
+		importedHeader/torrent_view.hpp \
+		importedHeader/session_view.hpp \
+		importedHeader/print.hpp \
+		startthread.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QThread \
+		../../Qt/5.5/gcc_64/include/QtCore/qthread.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/QMessageBox \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qmessagebox.h \
+		../../Qt/5.5/gcc_64/include/QtWidgets/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o simple_client.o importedCPP/simple_client.cpp
 
-torrent_view.o: importedCPP/torrent_view.cpp 
+torrent_view.o: importedCPP/torrent_view.cpp importedHeader/torrent_view.hpp \
+		importedHeader/print.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o torrent_view.o importedCPP/torrent_view.cpp
+
+clienttest.o: clienttest.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o clienttest.o clienttest.cpp
+
+starttorrent.o: starttorrent.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o starttorrent.o starttorrent.cpp
+
+startthread.o: startthread.cpp startthread.h \
+		simple_client.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QString \
+		../../Qt/5.5/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qfeatures.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QObject \
+		../../Qt/5.5/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qisenum.h \
+		../../Qt/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.5/gcc_64/include/QtCore/QThread \
+		../../Qt/5.5/gcc_64/include/QtCore/qthread.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o startthread.o startthread.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 moc_dump_torrent.o: moc_dump_torrent.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dump_torrent.o moc_dump_torrent.cpp
+
+moc_startthread.o: moc_startthread.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_startthread.o moc_startthread.cpp
 
 ####### Install
 
