@@ -105,42 +105,50 @@ void MainWindow::on_startButton_clicked()
 
 void MainWindow :: setNumPieces(int numPieces)
 {
+    ui->numPcsLbl->clear();
     ui->numPcsLbl->setText(QString::number(numPieces));
 }
 
 void MainWindow :: setPiecesLength(int piecesLength)
 {
+    ui->pcsLenLbl->clear();
     ui->pcsLenLbl->setText(QString::number(piecesLength));
 }
 
 void MainWindow :: setInfoHash(QString infoHash)
 {
+    ui->infoHashLbl->clear();
     ui->infoHashLbl->setText(infoHash);
 }
 
 void MainWindow :: setComment(QString comment)
 {
+    ui->cmntLbl->clear();
     ui->cmntLbl->setText(comment);
 }
 
 void MainWindow :: setCreatedBy(QString creator)
 {
+    ui->createByLbl->clear();
     ui->createByLbl->setText(creator);
 }
 
 void MainWindow :: setMagnetLink(QString magnetLink)
 {
+    ui->magLinkBrowser->clear();
     ui->magLinkBrowser->setText(magnetLink);
 }
 
 void MainWindow :: setName(QString nameOfFile)
 {
     MainWindow::tv->torFileName = nameOfFile;
+    ui->nameLbl->clear();
     ui->nameLbl->setText(nameOfFile);
 }
 
 void MainWindow :: setNumOfFiles(int numOfFiles)
 {
+    ui->numFilesLbl->clear();
     ui->numFilesLbl->setText(QString::number(numOfFiles));
 }
 
@@ -156,35 +164,35 @@ void MainWindow::setFilesList(QList<QString> fileList){
     foreach( QString s, fileList){
         stringList << s;
     }
+    ui->fileListDisplay->clear();
     ui->fileListDisplay->addItems(stringList);
 }
 
 
 void MainWindow::on_quitButton_clicked()
 {
-    quitProgram = true;
+
     exit(1);
 }
 
 void MainWindow::displayProgress(struct torVariable *tv){
 
     QTableWidgetItem *tableItems = new QTableWidgetItem(tv->torFileName);
-    QTableWidgetItem *tableItems_1 = new QTableWidgetItem("Hi");
-    QTableWidgetItem *tableItems_2 = new QTableWidgetItem("How are you");
+    QTableWidgetItem *tableItems_1 = new QTableWidgetItem("Downloading");
+    QTableWidgetItem *tableItems_2 = new QTableWidgetItem("");
 
 
-    QList<QString> listOfString;
-    QString test;
-    for(int i = 1; i < 8;i++){
-        test = i + " boy";
-        listOfString.append(test);
-    }
+//    QList<QString> listOfString;
+//    QString test;
+//    for(int i = 1; i < 8;i++){
+//        test = i + " boy";
+//        listOfString.append(test);
+//    }
 
     ui->statusDisplay->insertRow(0);
     ui->statusDisplay->setItem(0,0,tableItems);
     ui->statusDisplay->setItem(0,1,tableItems_1);
     ui->statusDisplay->setItem(0,2,tableItems_2);
-    ui->statusDisplay->insertRow(1);
 
 }
 

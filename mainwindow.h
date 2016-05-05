@@ -26,7 +26,6 @@ public:
     ~MainWindow();
     void setLineEdit(int num);
     void displayHeader();
-    bool quitProgram = false;
 
 
 private slots:
@@ -53,6 +52,9 @@ private:
     clienttest *ct = new clienttest();
     QString onlyFilename, filePath, torrentFileName;
     torVariable *tv = new torVariable();
+
+signals:
+    void stopProgram();
 
 
 

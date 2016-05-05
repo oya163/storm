@@ -42,6 +42,7 @@
 #include "libtorrent/add_torrent_params.hpp"
 #include "libtorrent/time.hpp"
 #include "libtorrent/create_torrent.hpp"
+#include "libtorrent/torrent_status.hpp"
 
 #include "importedHeader/torrent_view.hpp"
 #include "importedHeader/session_view.hpp"
@@ -110,7 +111,7 @@ public:
     void print_piece(libtorrent::partial_piece_info* pp
                      , libtorrent::cached_piece_info* cs
                      , std::vector<libtorrent::peer_info> const& peers
-                     , torrent_status const* ts
+                     , libtorrent::torrent_status const* ts
                      , std::string& out);
 
     void startDownloading(QString torrentFilename);
