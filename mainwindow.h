@@ -5,7 +5,6 @@
 #include <QThread>
 
 #include "dump_torrent.h"
-#include "simple_client.h"
 #include "clienttest.h"
 #include "startthread.h"
 #include "createtorrent.h"
@@ -14,18 +13,7 @@ namespace Ui {
 class MainWindow;
 }
 
-struct torVariable{
-    QString torFileName;
-    QString torProgress;
-    int download_rate;
-    boost::int64_t total_download;
-    int upload_rate;
-    boost::int64_t total_upload;
-    int num_of_peers;
-    int num_of_seeds;
-    boost::int64_t all_time_download;
-    boost::int64_t all_time_upload;
-};
+
 
 class MainWindow : public QMainWindow
 {
@@ -36,6 +24,20 @@ public:
     ~MainWindow();
     void setLineEdit(int num);
     void displayHeader();
+    struct torVariable{
+        QString torFileName;
+        QString torProgress;
+        int download_rate;
+        boost::int64_t total_download;
+        int upload_rate;
+        boost::int64_t total_upload;
+        int num_of_peers;
+        int num_of_seeds;
+        boost::int64_t all_time_download;
+        boost::int64_t all_time_upload;
+    };
+
+
 
 
 private slots:
@@ -46,6 +48,8 @@ private slots:
     void on_createTorrent_Button_clicked();
 
     void on_pauseButton_clicked();
+
+    void on_deleteButton_clicked();
 
 public slots:
     void setNumPieces(int numOfPieces);

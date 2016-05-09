@@ -1,8 +1,6 @@
 #ifndef SIMPLE_CLIENT_H
 #define SIMPLE_CLIENT_H
 
-#include <mainwindow.h>
-
 #include <string.h>
 
 #include <QString>
@@ -15,7 +13,7 @@
 
 #include "libtorrent/torrent_info.hpp"
 #include "libtorrent/announce_entry.hpp"
-#include "libtorrent/entry.hpp"
+#include "libtorrent/entry.hpp";
 #include "libtorrent/bencode.hpp"
 #include "libtorrent/session.hpp"
 #include "libtorrent/identify_client.hpp"
@@ -33,7 +31,7 @@
 #include "importedHeader/print.hpp"
 #include "libtorrent/torrent_status.hpp"
 
-
+#include "mainwindow.h"
 
 class simple_client
 {
@@ -45,9 +43,19 @@ public:
         , libtorrent::error_code& ec, int limit);
 
     int startTorrent(QString onlyfileName);
+    void set_num_of_peers(int num_of_peers);
+    int get_num_of_peers(int num_of_peers);
+
+
+private:
+    int num_of_peers;
+
 
 signals:
     void displayName(QString displayName);
+    void displayProg();
+
+
 
 
 };

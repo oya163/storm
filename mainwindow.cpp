@@ -1,7 +1,5 @@
 #include "ui_mainwindow.h"
 #include "mainwindow.h"
-#include "dump_torrent.h"
-#include "simple_client.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -9,6 +7,7 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QStringList>
+#include <QItemSelectionModel>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -17,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Storm");
+    ui->openButton->setFocus();
 
 
     connect(dt,SIGNAL(setNumOfPieces(int)),this,SLOT(setNumPieces(int)));
@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(dt,SIGNAL(setName(QString)),this,SLOT(setName(QString)));
     connect(dt,SIGNAL(setNumOfFiles(int)),this,SLOT(setNumOfFiles(int)));
     connect(dt,SIGNAL(setFilesList(QList<QString>)),this,SLOT(setFilesList(QList<QString>)));
+
+    //    connect();
 
     MainWindow::displayHeader();
     MainWindow::setFixedSize(812,847);
@@ -69,6 +71,7 @@ void MainWindow::on_startButton_clicked()
 
     //initalize the StartThread with filpath
     StartThread *start_thread = new StartThread(MainWindow::filePath);
+    simple_client *sc = new simple_client();
 
     if(ui->fileLabel->text() != "NA"){
         msgBox.setText("Are you sure you want to start downloading?");
@@ -77,10 +80,11 @@ void MainWindow::on_startButton_clicked()
         int ret = msgBox.exec();
         switch(ret){
         case (QMessageBox::Yes):
-
+            tv->torProgress = "Downloading";
             displayProgress(tv);
 
             //connect signal
+            //            connect(sc,SIGNAL(displayProgress(torVariable)),this,SLOT(displayProgress(torVariable));
             connect(start_thread,SIGNAL(threadResult(int)),this,SLOT(displayResultFromSC(int)));
             //connect(start_thread, SIGNAL(finished()), start_thread, SLOT(deleteLater()));
 
@@ -180,9 +184,10 @@ void MainWindow::on_quitButton_clicked()
 void MainWindow::displayProgress(struct torVariable *tv){
 
     QTableWidgetItem *tableItems = new QTableWidgetItem(tv->torFileName);
-    QTableWidgetItem *tableItems_1 = new QTableWidgetItem("Downloading");
-    QTableWidgetItem *tableItems_2 = new QTableWidgetItem("");
+    QTableWidgetItem *tableItems_1 = new QTableWidgetItem(tv->torProgress);
+    QTableWidgetItem *tableItems_2 = new QTableWidgetItem(tv->download_rate);
 
+    ui->statusDisplay->removeRow(0);
     ui->statusDisplay->insertRow(0);
     ui->statusDisplay->setItem(0,0,tableItems);
     ui->statusDisplay->setItem(0,1,tableItems_1);
@@ -203,14 +208,19 @@ void MainWindow::displayHeader(){
 void MainWindow::displayResultFromSC(int result){
     QMessageBox msgBox2;
     QString msg;
+    bool statusFinish = false;
 
     if(result == 0){    //success
-        msg = QString(onlyFilename.toLatin1().data()) + "successfully downloaded";
+        msg = QString(onlyFilename.toLatin1().data()) + " successfully downloaded";
+        tv->torProgress = "Finished";
+        displayProgress(tv);
         msgBox2.setText(msg);
         msgBox2.exec();
     }
     else if(result == 1){
         msg = "Error downloading " + QString(onlyFilename.toLatin1().data());
+        tv->torProgress = "Error";
+        displayProgress(tv);
         msgBox2.setText(msg);
         msgBox2.exec();
     }
@@ -219,6 +229,12 @@ void MainWindow::displayResultFromSC(int result){
 void MainWindow::on_createTorrent_Button_clicked()
 {
     createTor.show();
+}
+
+
+void MainWindow::on_deleteButton_clicked()
+{
+    ui->statusDisplay->removeRow(ui->statusDisplay->currentRow());
 }
 
 void MainWindow::on_pauseButton_clicked()
