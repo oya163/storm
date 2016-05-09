@@ -21,6 +21,8 @@ private:
 signals:
     void threadResult(int result);
 
+//    void displayProgress(torVariable *tv);
+
 };
 
 

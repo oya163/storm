@@ -76,7 +76,7 @@ void torrent_view::set_filter(int filter)
 // returns the lt::torrent_status of the currently selected torrent.
 lt::torrent_status const& torrent_view::get_active_torrent() const
 {
-    if (m_active_torrent >= int(m_filtered_handles.size()))
+	if (m_active_torrent >= int(m_filtered_handles.size()))
 		m_active_torrent = int(m_filtered_handles.size()) - 1;
 	if (m_active_torrent < 0) m_active_torrent = 0;
 	TORRENT_ASSERT(m_active_torrent >= 0);
@@ -240,7 +240,7 @@ void torrent_view::render()
 		++i;
 
 		set_cursor_pos(0, torrent_index + header_size - m_scroll_position);
-        print_torrent(s, torrent_index == m_active_torrent);
+		print_torrent(s, torrent_index == m_active_torrent);
 		++lines_printed;
 	}
 

@@ -90,6 +90,7 @@ public:
         openButton = new QPushButton(groupBox);
         openButton->setObjectName(QStringLiteral("openButton"));
         openButton->setGeometry(QRect(10, 30, 99, 27));
+        openButton->setAutoDefault(true);
         resumeButton = new QPushButton(groupBox);
         resumeButton->setObjectName(QStringLiteral("resumeButton"));
         resumeButton->setGeometry(QRect(210, 30, 99, 27));

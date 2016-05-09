@@ -20,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[30];
-    char stringdata0[410];
+    QByteArrayData data[31];
+    char stringdata0[434];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,40 +38,41 @@ QT_MOC_LITERAL(4, 46, 22), // "on_startButton_clicked"
 QT_MOC_LITERAL(5, 69, 21), // "on_quitButton_clicked"
 QT_MOC_LITERAL(6, 91, 31), // "on_createTorrent_Button_clicked"
 QT_MOC_LITERAL(7, 123, 22), // "on_pauseButton_clicked"
-QT_MOC_LITERAL(8, 146, 12), // "setNumPieces"
-QT_MOC_LITERAL(9, 159, 11), // "numOfPieces"
-QT_MOC_LITERAL(10, 171, 15), // "setPiecesLength"
-QT_MOC_LITERAL(11, 187, 9), // "piecesLen"
-QT_MOC_LITERAL(12, 197, 11), // "setInfoHash"
-QT_MOC_LITERAL(13, 209, 8), // "infoHash"
-QT_MOC_LITERAL(14, 218, 10), // "setComment"
-QT_MOC_LITERAL(15, 229, 7), // "comment"
-QT_MOC_LITERAL(16, 237, 12), // "setCreatedBy"
-QT_MOC_LITERAL(17, 250, 7), // "creator"
-QT_MOC_LITERAL(18, 258, 13), // "setMagnetLink"
-QT_MOC_LITERAL(19, 272, 10), // "magnetLink"
-QT_MOC_LITERAL(20, 283, 7), // "setName"
-QT_MOC_LITERAL(21, 291, 10), // "nameOfFile"
-QT_MOC_LITERAL(22, 302, 13), // "setNumOfFiles"
-QT_MOC_LITERAL(23, 316, 9), // "numPieces"
-QT_MOC_LITERAL(24, 326, 12), // "setFilesList"
-QT_MOC_LITERAL(25, 339, 14), // "QList<QString>"
-QT_MOC_LITERAL(26, 354, 15), // "displayProgress"
-QT_MOC_LITERAL(27, 370, 12), // "torVariable*"
-QT_MOC_LITERAL(28, 383, 19), // "displayResultFromSC"
-QT_MOC_LITERAL(29, 403, 6) // "result"
+QT_MOC_LITERAL(8, 146, 23), // "on_deleteButton_clicked"
+QT_MOC_LITERAL(9, 170, 12), // "setNumPieces"
+QT_MOC_LITERAL(10, 183, 11), // "numOfPieces"
+QT_MOC_LITERAL(11, 195, 15), // "setPiecesLength"
+QT_MOC_LITERAL(12, 211, 9), // "piecesLen"
+QT_MOC_LITERAL(13, 221, 11), // "setInfoHash"
+QT_MOC_LITERAL(14, 233, 8), // "infoHash"
+QT_MOC_LITERAL(15, 242, 10), // "setComment"
+QT_MOC_LITERAL(16, 253, 7), // "comment"
+QT_MOC_LITERAL(17, 261, 12), // "setCreatedBy"
+QT_MOC_LITERAL(18, 274, 7), // "creator"
+QT_MOC_LITERAL(19, 282, 13), // "setMagnetLink"
+QT_MOC_LITERAL(20, 296, 10), // "magnetLink"
+QT_MOC_LITERAL(21, 307, 7), // "setName"
+QT_MOC_LITERAL(22, 315, 10), // "nameOfFile"
+QT_MOC_LITERAL(23, 326, 13), // "setNumOfFiles"
+QT_MOC_LITERAL(24, 340, 9), // "numPieces"
+QT_MOC_LITERAL(25, 350, 12), // "setFilesList"
+QT_MOC_LITERAL(26, 363, 14), // "QList<QString>"
+QT_MOC_LITERAL(27, 378, 15), // "displayProgress"
+QT_MOC_LITERAL(28, 394, 12), // "torVariable*"
+QT_MOC_LITERAL(29, 407, 19), // "displayResultFromSC"
+QT_MOC_LITERAL(30, 427, 6) // "result"
 
     },
     "MainWindow\0stopProgram\0\0on_openButton_clicked\0"
     "on_startButton_clicked\0on_quitButton_clicked\0"
     "on_createTorrent_Button_clicked\0"
-    "on_pauseButton_clicked\0setNumPieces\0"
-    "numOfPieces\0setPiecesLength\0piecesLen\0"
-    "setInfoHash\0infoHash\0setComment\0comment\0"
-    "setCreatedBy\0creator\0setMagnetLink\0"
-    "magnetLink\0setName\0nameOfFile\0"
-    "setNumOfFiles\0numPieces\0setFilesList\0"
-    "QList<QString>\0displayProgress\0"
+    "on_pauseButton_clicked\0on_deleteButton_clicked\0"
+    "setNumPieces\0numOfPieces\0setPiecesLength\0"
+    "piecesLen\0setInfoHash\0infoHash\0"
+    "setComment\0comment\0setCreatedBy\0creator\0"
+    "setMagnetLink\0magnetLink\0setName\0"
+    "nameOfFile\0setNumOfFiles\0numPieces\0"
+    "setFilesList\0QList<QString>\0displayProgress\0"
     "torVariable*\0displayResultFromSC\0"
     "result"
 };
@@ -83,7 +84,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      17,   14, // methods
+      18,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -91,25 +92,26 @@ static const uint qt_meta_data_MainWindow[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   99,    2, 0x06 /* Public */,
+       1,    0,  104,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,  100,    2, 0x08 /* Private */,
-       4,    0,  101,    2, 0x08 /* Private */,
-       5,    0,  102,    2, 0x08 /* Private */,
-       6,    0,  103,    2, 0x08 /* Private */,
-       7,    0,  104,    2, 0x08 /* Private */,
-       8,    1,  105,    2, 0x0a /* Public */,
-      10,    1,  108,    2, 0x0a /* Public */,
-      12,    1,  111,    2, 0x0a /* Public */,
-      14,    1,  114,    2, 0x0a /* Public */,
-      16,    1,  117,    2, 0x0a /* Public */,
-      18,    1,  120,    2, 0x0a /* Public */,
-      20,    1,  123,    2, 0x0a /* Public */,
-      22,    1,  126,    2, 0x0a /* Public */,
-      24,    1,  129,    2, 0x0a /* Public */,
-      26,    1,  132,    2, 0x0a /* Public */,
-      28,    1,  135,    2, 0x0a /* Public */,
+       3,    0,  105,    2, 0x08 /* Private */,
+       4,    0,  106,    2, 0x08 /* Private */,
+       5,    0,  107,    2, 0x08 /* Private */,
+       6,    0,  108,    2, 0x08 /* Private */,
+       7,    0,  109,    2, 0x08 /* Private */,
+       8,    0,  110,    2, 0x08 /* Private */,
+       9,    1,  111,    2, 0x0a /* Public */,
+      11,    1,  114,    2, 0x0a /* Public */,
+      13,    1,  117,    2, 0x0a /* Public */,
+      15,    1,  120,    2, 0x0a /* Public */,
+      17,    1,  123,    2, 0x0a /* Public */,
+      19,    1,  126,    2, 0x0a /* Public */,
+      21,    1,  129,    2, 0x0a /* Public */,
+      23,    1,  132,    2, 0x0a /* Public */,
+      25,    1,  135,    2, 0x0a /* Public */,
+      27,    1,  138,    2, 0x0a /* Public */,
+      29,    1,  141,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -120,17 +122,18 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,    9,
-    QMetaType::Void, QMetaType::Int,   11,
-    QMetaType::Void, QMetaType::QString,   13,
-    QMetaType::Void, QMetaType::QString,   15,
-    QMetaType::Void, QMetaType::QString,   17,
-    QMetaType::Void, QMetaType::QString,   19,
-    QMetaType::Void, QMetaType::QString,   21,
-    QMetaType::Void, QMetaType::Int,   23,
-    QMetaType::Void, 0x80000000 | 25,    2,
-    QMetaType::Void, 0x80000000 | 27,    2,
-    QMetaType::Void, QMetaType::Int,   29,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   10,
+    QMetaType::Void, QMetaType::Int,   12,
+    QMetaType::Void, QMetaType::QString,   14,
+    QMetaType::Void, QMetaType::QString,   16,
+    QMetaType::Void, QMetaType::QString,   18,
+    QMetaType::Void, QMetaType::QString,   20,
+    QMetaType::Void, QMetaType::QString,   22,
+    QMetaType::Void, QMetaType::Int,   24,
+    QMetaType::Void, 0x80000000 | 26,    2,
+    QMetaType::Void, 0x80000000 | 28,    2,
+    QMetaType::Void, QMetaType::Int,   30,
 
        0        // eod
 };
@@ -147,23 +150,24 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 3: _t->on_quitButton_clicked(); break;
         case 4: _t->on_createTorrent_Button_clicked(); break;
         case 5: _t->on_pauseButton_clicked(); break;
-        case 6: _t->setNumPieces((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 7: _t->setPiecesLength((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 8: _t->setInfoHash((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 9: _t->setComment((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 10: _t->setCreatedBy((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 11: _t->setMagnetLink((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 12: _t->setName((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 13: _t->setNumOfFiles((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 14: _t->setFilesList((*reinterpret_cast< QList<QString>(*)>(_a[1]))); break;
-        case 15: _t->displayProgress((*reinterpret_cast< torVariable*(*)>(_a[1]))); break;
-        case 16: _t->displayResultFromSC((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 6: _t->on_deleteButton_clicked(); break;
+        case 7: _t->setNumPieces((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 8: _t->setPiecesLength((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 9: _t->setInfoHash((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 10: _t->setComment((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 11: _t->setCreatedBy((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 12: _t->setMagnetLink((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 13: _t->setName((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 14: _t->setNumOfFiles((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: _t->setFilesList((*reinterpret_cast< QList<QString>(*)>(_a[1]))); break;
+        case 16: _t->displayProgress((*reinterpret_cast< torVariable*(*)>(_a[1]))); break;
+        case 17: _t->displayResultFromSC((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 14:
+        case 15:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -208,13 +212,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 17)
+        if (_id < 18)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 17;
+        _id -= 18;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 17)
+        if (_id < 18)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 17;
+        _id -= 18;
     }
     return _id;
 }

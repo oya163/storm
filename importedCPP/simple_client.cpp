@@ -237,7 +237,6 @@ int simple_client::startTorrent(QString onlyFilename)
     }
 
     torrent_handle h = ses.add_torrent(p, ec);
-    torrent_status const& s = h.status();
 
     // main loop
     std::vector<peer_info> peers;
@@ -251,27 +250,40 @@ int simple_client::startTorrent(QString onlyFilename)
         return 1;
     }
 
-
     while(1){
+        std::vector<torrent_status> torrents;
+        ses.get_torrent_status(&torrents, &yes, 0);
+
+        torrent_status& st = *torrents.begin();
 
         //torrent_handle
         if (h.is_valid())
         {
-//            torrent_status const& s = view.get_active_torrent();
-//            if(s.state != torrent_status::seeding){
-//                h.get_peer_info(peers);
-//                numOfPeers = s.num_peers;
-//                qDebug() << numOfPeers;
-//            }
+            num_of_peers = st.num_peers;
+            qDebug() << "Num of peers = " << num_of_peers;
+            qDebug() << "Num of seeds = " << st.num_seeds;
+            qDebug() << "Download rate = " << st.download_rate/1000 << "kbps";
+            qDebug() << "Upload rate = " << st.upload_rate/1000 << "kbps";
+            qDebug() << "Total download = " << st.total_download /1000000 << "MB";
+            qDebug() << "Total upload = " << st.total_upload / 1000000 << "MB";
+
+            simple_client::set_num_of_peers(st.num_peers);
+
             if(h.is_finished())
             {
-
                 break;
-                emit
             }
         }
     };
 
     return 0;
+}
+
+void simple_client::set_num_of_peers(int num_of_peers){
+    this->num_of_peers = num_of_peers;
+}
+
+int simple_client::get_num_of_peers(int num_of_peers){
+    return this->num_of_peers;
 }
 
