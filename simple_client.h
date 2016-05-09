@@ -9,17 +9,6 @@
 #include <QObject>
 #include <QMessageBox>
 
-//#include "libtorrent/settings_pack.hpp"
-//#include "libtorrent/session.hpp"
-//#include "libtorrent/entry.hpp"
-//#include "libtorrent/bencode.hpp"
-//#include "libtorrent/torrent_info.hpp"
-//#include "libtorrent/announce_entry.hpp"
-//#include "libtorrent/bdecode.hpp"
-//#include "libtorrent/magnet_uri.hpp"
-//#include "libtorrent/add_torrent_params.hpp"
-//#include "libtorrent/torrent_handle.hpp"
-
 #include "libtorrent/extensions/ut_metadata.hpp"
 #include "libtorrent/extensions/ut_pex.hpp"
 #include "libtorrent/extensions/smart_ban.hpp"
@@ -40,8 +29,10 @@
 #include "libtorrent/time.hpp"
 #include "libtorrent/create_torrent.hpp"
 
-#include "importedHeader/session_view.hpp"
 #include "importedHeader/torrent_view.hpp"
+#include "importedHeader/print.hpp"
+#include "libtorrent/torrent_status.hpp"
+
 
 
 class simple_client

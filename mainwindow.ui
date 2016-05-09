@@ -382,6 +382,19 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="createTorrent_Button">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>40</y>
+      <width>131</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Create Torrent</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -392,6 +405,12 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuSTORM">
+    <property name="title">
+     <string>STORM</string>
+    </property>
+   </widget>
+   <addaction name="menuSTORM"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -404,6 +423,18 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>openButton</tabstop>
+  <tabstop>startButton</tabstop>
+  <tabstop>resumeButton</tabstop>
+  <tabstop>pauseButton</tabstop>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>quitButton</tabstop>
+  <tabstop>createTorrent_Button</tabstop>
+  <tabstop>magLinkBrowser</tabstop>
+  <tabstop>fileListDisplay</tabstop>
+  <tabstop>statusDisplay</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

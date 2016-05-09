@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>createTorrent</class>
+ <widget class="QDialog" name="createTorrent">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>664</width>
+    <height>472</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Create Torrent</string>
+  </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>51</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Name</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>60</y>
+     <width>371</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="browseButton">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>60</y>
+     <width>99</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Browse</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="makeTorrent_Button">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>430</y>
+     <width>111</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Make torrent</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>110</y>
+     <width>81</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Output file</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="outputFileLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>110</y>
+     <width>371</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="cancelMakeTorrent_Button">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>430</y>
+     <width>99</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>160</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tracker 1</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="trackerLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>160</y>
+     <width>371</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>260</y>
+     <width>67</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Comment</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="commentLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>260</y>
+     <width>371</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>310</y>
+     <width>67</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Web seed</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="webSeedLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>310</y>
+     <width>371</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="trackerLineEdit_2">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>210</y>
+     <width>371</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>210</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tracker 2</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>360</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Created by</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="createdByLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>360</y>
+     <width>371</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <zorder>browseButton</zorder>
+  <zorder>label</zorder>
+  <zorder>lineEdit</zorder>
+  <zorder>makeTorrent_Button</zorder>
+  <zorder>label_2</zorder>
+  <zorder>outputFileLineEdit</zorder>
+  <zorder>cancelMakeTorrent_Button</zorder>
+  <zorder>label_3</zorder>
+  <zorder>trackerLineEdit</zorder>
+  <zorder>label_4</zorder>
+  <zorder>commentLineEdit</zorder>
+  <zorder>label_5</zorder>
+  <zorder>webSeedLineEdit</zorder>
+  <zorder>trackerLineEdit_2</zorder>
+  <zorder>label_6</zorder>
+  <zorder>label_7</zorder>
+  <zorder>createdByLineEdit</zorder>
+ </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>browseButton</tabstop>
+  <tabstop>outputFileLineEdit</tabstop>
+  <tabstop>trackerLineEdit</tabstop>
+  <tabstop>trackerLineEdit_2</tabstop>
+  <tabstop>commentLineEdit</tabstop>
+  <tabstop>webSeedLineEdit</tabstop>
+  <tabstop>createdByLineEdit</tabstop>
+  <tabstop>makeTorrent_Button</tabstop>
+  <tabstop>cancelMakeTorrent_Button</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

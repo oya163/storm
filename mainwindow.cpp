@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(dt,SIGNAL(setFilesList(QList<QString>)),this,SLOT(setFilesList(QList<QString>)));
 
     MainWindow::displayHeader();
+    MainWindow::setFixedSize(812,847);
+    MainWindow::move(300,0);
 
 
 }
@@ -80,7 +82,7 @@ void MainWindow::on_startButton_clicked()
 
             //connect signal
             connect(start_thread,SIGNAL(threadResult(int)),this,SLOT(displayResultFromSC(int)));
-            connect(start_thread, SIGNAL(finished()), start_thread, SLOT(deleteLater()));
+            //connect(start_thread, SIGNAL(finished()), start_thread, SLOT(deleteLater()));
 
             start_thread->start();
 
@@ -181,14 +183,6 @@ void MainWindow::displayProgress(struct torVariable *tv){
     QTableWidgetItem *tableItems_1 = new QTableWidgetItem("Downloading");
     QTableWidgetItem *tableItems_2 = new QTableWidgetItem("");
 
-
-//    QList<QString> listOfString;
-//    QString test;
-//    for(int i = 1; i < 8;i++){
-//        test = i + " boy";
-//        listOfString.append(test);
-//    }
-
     ui->statusDisplay->insertRow(0);
     ui->statusDisplay->setItem(0,0,tableItems);
     ui->statusDisplay->setItem(0,1,tableItems_1);
@@ -208,16 +202,26 @@ void MainWindow::displayHeader(){
 
 void MainWindow::displayResultFromSC(int result){
     QMessageBox msgBox2;
-    std::string msg;
+    QString msg;
 
     if(result == 0){    //success
-        msg = strcat(onlyFilename.toLatin1().data(),"successfully downloaded");
-        msgBox2.setText(QString(msg.c_str()));
+        msg = QString(onlyFilename.toLatin1().data()) + "successfully downloaded";
+        msgBox2.setText(msg);
         msgBox2.exec();
     }
     else if(result == 1){
-        msg = strcat("Error downloading ",onlyFilename.toLatin1().data());
-        msgBox2.setText(QString(msg.c_str()));
+        msg = "Error downloading " + QString(onlyFilename.toLatin1().data());
+        msgBox2.setText(msg);
         msgBox2.exec();
     }
+}
+
+void MainWindow::on_createTorrent_Button_clicked()
+{
+    createTor.show();
+}
+
+void MainWindow::on_pauseButton_clicked()
+{
+
 }

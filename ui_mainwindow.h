@@ -18,6 +18,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -61,7 +62,9 @@ public:
     QLabel *label_3;
     QLabel *label_11;
     QTableWidget *statusDisplay;
+    QPushButton *createTorrent_Button;
     QMenuBar *menuBar;
+    QMenu *menuSTORM;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -159,10 +162,15 @@ public:
         statusDisplay = new QTableWidget(centralWidget);
         statusDisplay->setObjectName(QStringLiteral("statusDisplay"));
         statusDisplay->setGeometry(QRect(30, 560, 761, 221));
+        createTorrent_Button = new QPushButton(centralWidget);
+        createTorrent_Button->setObjectName(QStringLiteral("createTorrent_Button"));
+        createTorrent_Button->setGeometry(QRect(660, 40, 131, 27));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 812, 25));
+        menuSTORM = new QMenu(menuBar);
+        menuSTORM->setObjectName(QStringLiteral("menuSTORM"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -170,6 +178,17 @@ public:
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
+        QWidget::setTabOrder(openButton, startButton);
+        QWidget::setTabOrder(startButton, resumeButton);
+        QWidget::setTabOrder(resumeButton, pauseButton);
+        QWidget::setTabOrder(pauseButton, deleteButton);
+        QWidget::setTabOrder(deleteButton, quitButton);
+        QWidget::setTabOrder(quitButton, createTorrent_Button);
+        QWidget::setTabOrder(createTorrent_Button, magLinkBrowser);
+        QWidget::setTabOrder(magLinkBrowser, fileListDisplay);
+        QWidget::setTabOrder(fileListDisplay, statusDisplay);
+
+        menuBar->addAction(menuSTORM->menuAction());
 
         retranslateUi(MainWindow);
 
@@ -205,6 +224,8 @@ public:
         numFilesLbl->setText(QApplication::translate("MainWindow", "NA", 0));
         label_3->setText(QApplication::translate("MainWindow", "Files to be downloaded", 0));
         label_11->setText(QApplication::translate("MainWindow", "Status", 0));
+        createTorrent_Button->setText(QApplication::translate("MainWindow", "Create Torrent", 0));
+        menuSTORM->setTitle(QApplication::translate("MainWindow", "STORM", 0));
     } // retranslateUi
 
 };
