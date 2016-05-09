@@ -33,9 +33,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "dump_torrent.h"
 #include "mainwindow.h"
 
-dump_torrent::~dump_torrent(){
-    delete fileName;
-}
+//dump_torrent::~dump_torrent(){
+//    delete fileName;
+//}
 
 int dump_torrent::load_file(std::string const& filename, std::vector<char>& v
     , libtorrent::error_code& ec, int limit = 8000000)

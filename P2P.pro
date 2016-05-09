@@ -20,8 +20,8 @@ SOURCES += main.cpp\
     importedCPP/simple_client.cpp \
     importedCPP/torrent_view.cpp \
     clienttest.cpp \
-    starttorrent.cpp \
-    startthread.cpp
+    startthread.cpp \
+    createtorrent.cpp
 
 HEADERS  += mainwindow.h \
     dump_torrent.h \
@@ -30,13 +30,19 @@ HEADERS  += mainwindow.h \
     importedHeader/session_view.hpp \
     importedHeader/torrent_view.hpp \
     clienttest.h \
-    starttorrent.h \
-    startthread.h
+    startthread.h \
+    createtorrent.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    createtorrent.ui
+
+#CONFIG += staticlib
 
 INCLUDEPATH += /home/oyashi/Downloads/libtorrent-rasterbar-1.1.0/include/libtorrent/
 INCLUDEPATH += /usr/local/include/boost/	
 
 LIBS += -L/usr/lib/ -lboost_filesystem -lboost_system -ltorrent-rasterbar
 LIBS += -L/usr/local/lib -lboost_system
+
+#DEPENDPATH += /home/oyashi/Downloads/libtorrent-rasterbar-1.1.0/include/libtorrent/
+#DEPENDPATH += /usr/local/include/boost/

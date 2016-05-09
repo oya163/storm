@@ -32,13 +32,15 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include <mainwindow.h>
 #include <simple_client.h>
+#include <QDebug>
+
 
 
 torrent_view view;
 session_view ses_view;
 
 int simple_client::load_file(std::string const& filename, std::vector<char>& v
-    , libtorrent::error_code& ec, int limit = 8000000)
+                             , libtorrent::error_code& ec, int limit = 8000000)
 {
     ec.clear();
     FILE* f = fopen(filename.c_str(), "rb");
@@ -160,8 +162,8 @@ int simple_client::startTorrent(QString onlyFilename)
     QString errorCode;
     std::string ecCode;
 
-	using namespace libtorrent;
-	namespace lt = libtorrent;
+    using namespace libtorrent;
+    namespace lt = libtorrent;
 
     int refresh_delay = 500;
 #ifndef TORRENT_DISABLE_DHT
@@ -193,11 +195,11 @@ int simple_client::startTorrent(QString onlyFilename)
         sett.set_bool(settings_pack::use_dht_as_fallback, false);
 
         ses.add_dht_router(std::make_pair(
-            std::string("router.bittorrent.com"), 6881));
+                               std::string("router.bittorrent.com"), 6881));
         ses.add_dht_router(std::make_pair(
-            std::string("router.utorrent.com"), 6881));
+                               std::string("router.utorrent.com"), 6881));
         ses.add_dht_router(std::make_pair(
-            std::string("router.bitcomet.com"), 6881));
+                               std::string("router.bitcomet.com"), 6881));
     }
 
     //bdecode
@@ -214,53 +216,61 @@ int simple_client::startTorrent(QString onlyFilename)
 #endif
 
 
-	if (ec)
-	{
+    if (ec)
+    {
         ecCode = std::strcat("failed to open listen socket: ",ec.message().c_str());
         errorCode = QString(ecCode.c_str());
         infoBox.setText(errorCode);
         infoBox.exec();
-		return 1;
-	}
+        return 1;
+    }
 
-	add_torrent_params p;
-	p.save_path = "./";
+    add_torrent_params p;
+    p.save_path = "./";
     p.ti = boost::make_shared<torrent_info>(onlyFilename.toLatin1().data(), boost::ref(ec), 0);
 
-	if (ec)
+    if (ec)
     {
         infoBox.setText(ec.message().c_str());
         infoBox.exec();
-		return 1;
-	}
+        return 1;
+    }
 
-    ses.add_torrent(p, ec);
+    torrent_handle h = ses.add_torrent(p, ec);
+    torrent_status const& s = h.status();
+
+    // main loop
+    std::vector<peer_info> peers;
+    std::vector<partial_piece_info> queue;
 
 
-	if (ec)
+    if (ec)
     {
         infoBox.setText(ec.message().c_str());
         infoBox.exec();
-		return 1;
-	}
-
+        return 1;
+    }
 
 
     while(1){
-        ses.post_torrent_updates();
-        ses.post_session_stats();
-        ses.post_dht_stats();
 
         //torrent_handle
-        torrent_handle h = view.get_active_handle();
-
         if (h.is_valid())
         {
-            torrent_status const& s = view.get_active_torrent();
+//            torrent_status const& s = view.get_active_torrent();
+//            if(s.state != torrent_status::seeding){
+//                h.get_peer_info(peers);
+//                numOfPeers = s.num_peers;
+//                qDebug() << numOfPeers;
+//            }
+            if(h.is_finished())
+            {
+
+                break;
+                emit
+            }
         }
     };
-
-
 
     return 0;
 }

@@ -8,6 +8,7 @@
 #include "simple_client.h"
 #include "clienttest.h"
 #include "startthread.h"
+#include "createtorrent.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,6 +16,15 @@ class MainWindow;
 
 struct torVariable{
     QString torFileName;
+    QString torProgress;
+    int download_rate;
+    boost::int64_t total_download;
+    int upload_rate;
+    boost::int64_t total_upload;
+    int num_of_peers;
+    int num_of_seeds;
+    boost::int64_t all_time_download;
+    boost::int64_t all_time_upload;
 };
 
 class MainWindow : public QMainWindow
@@ -32,6 +42,10 @@ private slots:
     void on_openButton_clicked();
     void on_startButton_clicked();
     void on_quitButton_clicked();
+
+    void on_createTorrent_Button_clicked();
+
+    void on_pauseButton_clicked();
 
 public slots:
     void setNumPieces(int numOfPieces);
@@ -52,6 +66,8 @@ private:
     clienttest *ct = new clienttest();
     QString onlyFilename, filePath, torrentFileName;
     torVariable *tv = new torVariable();
+    createTorrent createTor;
+
 
 signals:
     void stopProgram();
